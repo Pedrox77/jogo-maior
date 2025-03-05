@@ -60,15 +60,7 @@
     <script>
         // Função chamada quando o botão do Corinthians é clicado
         function corinthiansClicked() {
-            // Mover o botão de Corinthians muito rápido na tela
-            const corinthiansButton = document.getElementById('corinthians');
-            const x = Math.random() * (window.innerWidth - corinthiansButton.offsetWidth);
-            const y = Math.random() * (window.innerHeight - corinthiansButton.offsetHeight);
-            corinthiansButton.style.left = x + 'px';
-            corinthiansButton.style.top = y + 'px';
-
-            // Aumentando a velocidade do movimento (agora o intervalo é de 30ms)
-            setTimeout(corinthiansClicked, 30);  // 30ms para uma movimentação mais rápida
+            document.getElementById('message').innerText = 'Resposta errada, tente novamente!';
         }
 
         // Função chamada quando o botão do São Paulo é clicado
