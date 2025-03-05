@@ -3,84 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Celular Digitando</title>
+    <title>WhatsApp - Calleri vs Yuri Alberto</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #e5ddd5;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
         }
 
-        /* Estilo do celular */
-        .phone {
-            width: 300px;
-            height: 550px;
-            background-color: #333;
+        /* Fundo do WhatsApp */
+        .whatsapp-container {
+            width: 375px;
+            height: 667px;
+            background-color: #fff;
             border-radius: 30px;
-            padding: 20px;
-            position: relative;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
         }
 
-        /* Tela do celular */
-        .screen {
-            background-color: #222;
-            flex: 1;
-            border-radius: 20px;
-            padding: 20px;
+        /* Cabeçalho do WhatsApp */
+        .header {
+            background-color: #075e54;
             color: white;
+            padding: 15px;
             font-size: 18px;
-            font-family: 'Courier New', Courier, monospace;
-            overflow: hidden;
-            position: relative;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Área de mensagens */
+        .messages {
+            padding: 10px;
+            overflow-y: auto;
+            flex-grow: 1;
             display: flex;
-            align-items: flex-end;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
-        /* A área que contém a mensagem sendo digitada */
-        .typing {
-            position: absolute;
-            bottom: 20px;
-            white-space: nowrap;
-            width: 0;
-            overflow: hidden;
-            border-right: 4px solid #fff;
-            animation: typing 5s steps(30) 1s forwards, blink 0.7s step-end infinite;
+        /* Estilo das mensagens */
+        .message {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: #dcf8c6;
+            word-wrap: break-word;
+            animation: messageAnimation 1s forwards;
         }
 
-        /* Animação de digitação */
-        @keyframes typing {
+        .message.pedro {
+            background-color: #fff;
+            align-self: flex-start;
+        }
+
+        .message.cecilia {
+            background-color: #dcf8c6;
+            align-self: flex-end;
+        }
+
+        /* Efeito de animação das mensagens */
+        @keyframes messageAnimation {
             0% {
-                width: 0;
+                opacity: 0;
+                transform: translateX(30px);
             }
             100% {
-                width: 100%;
+                opacity: 1;
+                transform: translateX(0);
             }
         }
 
-        /* Efeito de piscada do cursor */
-        @keyframes blink {
-            50% {
-                border-color: transparent;
-            }
+        /* Estilo da barra de entrada de texto */
+        .input-container {
+            padding: 10px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
+        .input-container input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .input-container button {
+            padding: 10px 20px;
+            background-color: #075e54;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .input-container button:disabled {
+            background-color: #ccc;
+        }
     </style>
 </head>
 <body>
 
-    <div class="phone">
-        <div class="screen">
-            <div class="typing">Calleri é melhor que Yuri Alberto</div>
+    <div class="whatsapp-container">
+        <div class="header">Pedro - WhatsApp</div>
+
+        <div class="messages" id="messages">
+            <!-- Mensagens vão aparecer aqui -->
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="input" placeholder="Digite uma mensagem...">
+            <button id="sendButton" onclick="sendMessage()">Enviar</button>
         </div>
     </div>
+
+    <script>
+        const messagesContainer = document.getElementById('messages');
+        const sendButton = document.getElementById('sendButton');
+        const input = document.getElementById('input');
+
+        let messageIndex = 0;
+
+        // Função para enviar a mensagem
+        function sendMessage() {
+            const userMessage = input.value.trim();
+            if (userMessage !== '') {
+                // Adiciona a mensagem de Pedro (Calleri é melhor que Yuri Alberto)
+                if (messageIndex === 0) {
+                    appendMessage('Pedro', userMessage, 'pedro');
+                    input.value = '';
+                    sendButton.disabled = true; // Desabilita o botão de enviar
+                    messageIndex++;
+                    setTimeout(() => {
+                        // Adiciona a resposta de Cecília
+                        appendMessage('Cecília', 'Concordo, Calleri é realmente melhor que Yuri Alberto!', 'cecilia');
+                    }, 2000); // Cecília responde após 2 segundos
+                }
+            }
+        }
+
+        // Função para adicionar mensagens à tela
+        function appendMessage(sender, text, senderClass) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', senderClass);
+            messageElement.innerText = text;
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll para o fundo
+        }
+
+        // Desbloquear o botão de enviar quando o usuário digitar algo
+        input.addEventListener('input', () => {
+            sendButton.disabled = input.value.trim() === '';
+        });
+    </script>
 
 </body>
 </html>
