@@ -82,7 +82,7 @@
             }
         }
 
-        /* Estilo da barra de entrada de texto */
+        /* Estilo da barra de entrada de texto (não será utilizada aqui) */
         .input-container {
             padding: 10px;
             background-color: #f0f0f0;
@@ -122,37 +122,20 @@
         <div class="messages" id="messages">
             <!-- Mensagens vão aparecer aqui -->
         </div>
-
-        <div class="input-container">
-            <input type="text" id="input" placeholder="Digite uma mensagem...">
-            <button id="sendButton" onclick="sendMessage()">Enviar</button>
-        </div>
     </div>
 
     <script>
         const messagesContainer = document.getElementById('messages');
-        const sendButton = document.getElementById('sendButton');
-        const input = document.getElementById('input');
 
-        let messageIndex = 0;
-
-        // Função para enviar a mensagem
-        function sendMessage() {
-            const userMessage = input.value.trim();
-            if (userMessage !== '') {
-                // Adiciona a mensagem de Pedro (Calleri é melhor que Yuri Alberto)
-                if (messageIndex === 0) {
-                    appendMessage('Pedro', userMessage, 'pedro');
-                    input.value = '';
-                    sendButton.disabled = true; // Desabilita o botão de enviar
-                    messageIndex++;
-                    setTimeout(() => {
-                        // Adiciona a resposta de Cecília
-                        appendMessage('Cecília', 'Concordo, Calleri é realmente melhor que Yuri Alberto!', 'cecilia');
-                    }, 2000); // Cecília responde após 2 segundos
-                }
-            }
-        }
+        // Mensagens automáticas de Pedro e Cecília
+        const chatMessages = [
+            { sender: 'Pedro', text: 'Calleri é melhor que Yuri Alberto' },
+            { sender: 'Cecília', text: 'Concordo, Calleri é realmente melhor que Yuri Alberto!' },
+            { sender: 'Pedro', text: 'Eu também acho! Calleri é o melhor atacante!' },
+            { sender: 'Cecília', text: 'Sim! Ele é muito mais completo que o Yuri Alberto!' },
+            { sender: 'Pedro', text: 'Com certeza, Calleri tem mais experiência e faro de gol.' },
+            { sender: 'Cecília', text: 'Exato! Yuri Alberto ainda precisa provar mais.' }
+        ];
 
         // Função para adicionar mensagens à tela
         function appendMessage(sender, text, senderClass) {
@@ -163,10 +146,23 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll para o fundo
         }
 
-        // Desbloquear o botão de enviar quando o usuário digitar algo
-        input.addEventListener('input', () => {
-            sendButton.disabled = input.value.trim() === '';
-        });
+        // Função para iniciar a conversa automaticamente
+        function startConversation() {
+            let messageIndex = 0;
+            const interval = setInterval(() => {
+                if (messageIndex < chatMessages.length) {
+                    const message = chatMessages[messageIndex];
+                    const senderClass = message.sender === 'Pedro' ? 'pedro' : 'cecilia';
+                    appendMessage(message.sender, message.text, senderClass);
+                    messageIndex++;
+                } else {
+                    clearInterval(interval); // Interrompe a conversa quando todas as mensagens forem enviadas
+                }
+            }, 2000); // Envia uma mensagem a cada 2 segundos
+        }
+
+        // Iniciar a conversa assim que a página carregar
+        window.onload = startConversation;
     </script>
 
 </body>
