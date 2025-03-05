@@ -57,15 +57,15 @@
     <script>
         // Função chamada quando o botão do Corinthians é clicado
         function corinthiansClicked() {
-            // Mover o botão de Corinthians aleatoriamente na tela
+            // Mover o botão de Corinthians rapidamente na tela
             const corinthiansButton = document.getElementById('corinthians');
             const x = Math.random() * (window.innerWidth - corinthiansButton.offsetWidth);
             const y = Math.random() * (window.innerHeight - corinthiansButton.offsetHeight);
             corinthiansButton.style.left = x + 'px';
             corinthiansButton.style.top = y + 'px';
-            
-            // Mostrar a mensagem
-            document.getElementById('message').innerText = 'Corinthians está se mexendo, clique em São Paulo!';
+
+            // Deixar o botão se mexer rapidamente, chamando a função novamente após um curto intervalo
+            setTimeout(corinthiansClicked, 50);  // 50ms para uma movimentação mais rápida
         }
 
         // Função chamada quando o botão do São Paulo é clicado
