@@ -16,7 +16,7 @@
             height: 100vh;
         }
 
-        /* Fundo do WhatsApp */
+        /* Container do WhatsApp no estilo iPhone */
         .whatsapp-container {
             width: 375px;
             height: 667px;
@@ -26,6 +26,26 @@
             flex-direction: column;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             overflow: hidden;
+            position: relative;
+        }
+
+        /* Barra de status do iPhone */
+        .status-bar {
+            background-color: #333;
+            height: 20px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 12px;
+            color: #fff;
+            padding-left: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .status-bar span {
+            margin-right: 10px;
         }
 
         /* Cabeçalho do WhatsApp */
@@ -63,11 +83,20 @@
         .message.pedro {
             background-color: #fff;
             align-self: flex-start;
+            display: flex;
+            align-items: center;
         }
 
         .message.cecilia {
             background-color: #dcf8c6;
             align-self: flex-end;
+            display: flex;
+            align-items: center;
+        }
+
+        .message .name {
+            font-weight: bold;
+            margin-right: 10px;
         }
 
         /* Efeito de animação das mensagens */
@@ -117,6 +146,12 @@
 <body>
 
     <div class="whatsapp-container">
+        <div class="status-bar">
+            <span>00:00</span>
+            <span>3G</span>
+            <span>100%</span>
+        </div>
+
         <div class="header">Pedro - WhatsApp</div>
 
         <div class="messages" id="messages">
@@ -141,7 +176,13 @@
         function appendMessage(sender, text, senderClass) {
             const messageElement = document.createElement('div');
             messageElement.classList.add('message', senderClass);
-            messageElement.innerText = text;
+
+            const nameElement = document.createElement('span');
+            nameElement.classList.add('name');
+            nameElement.innerText = sender + ':';
+
+            messageElement.appendChild(nameElement);
+            messageElement.appendChild(document.createTextNode(text));
             messagesContainer.appendChild(messageElement);
             messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll para o fundo
         }
